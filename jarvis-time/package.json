@@ -1,0 +1,17 @@
+{
+  "name": "jarvis-time",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/service.js",
+  "scripts": {
+    "start": "node-dev bin/run.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron Pratt, lynda",
+  "license": "",
+  "dependencies": {
+    "express": "^4.14.0",
+    "moment": "^2.18.1",
+    "superagent": "^3.5.2"
+  }
+}

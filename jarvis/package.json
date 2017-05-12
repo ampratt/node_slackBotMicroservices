@@ -1,0 +1,17 @@
+{
+  "name": "jarvis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/service.js",
+  "scripts": {
+    "start": "node-dev bin/run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aaron Pratt",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/client": "^3.9.0",
+    "express": "^4.15.2",
+    "superagent": "^3.5.2"
+  }
+}

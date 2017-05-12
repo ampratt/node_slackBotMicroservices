@@ -6,6 +6,7 @@ const RTM_EVENTS = require('@slack/client').RTM_EVENTS
 
 let rtm = null
 let nlp = null 	// natural language processor
+let registry = null
 
 function handleOnAuthenticated(rtmStartData){
 	console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel.`)
@@ -31,7 +32,7 @@ function handleOnMessage(message) {
 
 				const intent = require('./intents/' + res.intent[0].value + 'Intent')
 				
-				intent.process(res, (err, res) => {
+				intent.process(res, registry, (err, res) => {
 					if(err){
 						console.log(err.message)
 						return
@@ -45,28 +46,16 @@ function handleOnMessage(message) {
 				console.log(res)
 				rtm.sendMessage("Sorry, I don't know what you are talking about", message.channel)
 			}
-
-			// if (!res.intent) {
-			// 	return rtm.sendMessage("Sorry, I did not get an intent", message.channel, () => {});
-			// } else if(res.intent[0].value === 'time' && res.location) {
-			// 	return rtm.sendMessage(`I don't yet know the time in ${res.location[0].value}`, message.channel, () => {});
-			// } else {
-			// 	console.log(res)
-			// 	return rtm.sendMessage("Sorry, I haven't loaded my AI responses yet", message.channel, () => {});
-			// }
-			
-			// rtm.sendMessage("Sorry, I did not understand you yet.", message.channel, () => {
-			// 	// optionally supply a callback after message is sent
-			// });
 		})
 	}
 
 
 }
 
-module.exports.init = function slackClient(token, logLevel, nlpClient) {
+module.exports.init = function slackClient(token, logLevel, nlpClient, serviceRegistry) {
 	rtm = new RtmClient(token, { logLevel: logLevel})
 	nlp = nlpClient
+	registry = serviceRegistry
 	addAuthenticatedHandler(rtm, handleOnAuthenticated)
 	rtm.on(RTM_EVENTS.MESSAGE, handleOnMessage)
 	return rtm

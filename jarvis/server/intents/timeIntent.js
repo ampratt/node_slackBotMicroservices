@@ -2,7 +2,7 @@
 
 const request = require('superagent')
 
-module.exports.process = function process(intentData, cb) {
+module.exports.process = function process(intentData, registry, cb) {
 
 	if(intentData.intent[0].value !== 'time')
 		return cb(new Error(`Expected time intent, but got ${intentData.intent[0].value}`))
@@ -12,10 +12,14 @@ module.exports.process = function process(intentData, cb) {
 	// temp, dont have ai yet
 	const location = intentData.location[0].value.replace(/,.?jarvis/i, '')
 
-	request.get(`http://localhost:3010/service/${location}`, (err, res) => {
+	// use registry before request
+    const service = registry.get('time')
+    if(!service) return cb(false, 'No service available');
+
+	request.get(`http://${service.ip}:${service.port}/service/${location}`, (err, res) => {
 		if(err || res.statusCode != 200 || !res.body.result){
 			console.log(err)
-			console.log(res.body)
+
 			return cb(false, `I had a problem finding out the time in ${location}`)
 		}	
 

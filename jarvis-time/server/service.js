@@ -6,10 +6,8 @@ const express = require('express')
 const service = express()
 
 const geoKey = require('../../docs/geoKey.js')
+const timeKey = require('../../docs/timeKey.js')
 
-
-// geo: AIzaSyCVZdvJOhbGHaiTVnGFIwdw9AFtktkjE-w
-// time: AIzaSyDUfxySI5WmaAkY6CyFNZiiLAehy-OT6VI
 // geo-req: https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 // time-req: https://maps.googleapis.com/maps/api/timezone/json?location=39.6034810,-119.6822510&timestamp=1331161200&key=YOUR_API_KEY
 
@@ -33,7 +31,7 @@ service.get('/service/:location', (req, res, next) => {
 					request.get('https://maps.googleapis.com/maps/api/timezone/'
 						+ 'json?location=' + location.lat + ',' + location.lng
 						+ '&timestamp=' + timestamp
-						+ '&key=AIzaSyDUfxySI5WmaAkY6CyFNZiiLAehy-OT6VI',
+						+ '&key=' + timeKey,
 						(err, response) => {
 							if(err) {
 								console.log(err)

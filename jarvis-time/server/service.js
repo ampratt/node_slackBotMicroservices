@@ -22,7 +22,7 @@ service.get('/service/:location', (req, res, next) => {
 						return res.sendStatus(500)
 					}
 
-					console.log("WHEN AM I RUNNING - LOCATION API?")
+					console.log("RUNNING Time API - got geocode from google")
 					// TODO- re-ask user in case of needing a more specific location
 					// res.json(response.body.results[0].geometry.location)
 					
@@ -52,9 +52,9 @@ service.get('/service/:location', (req, res, next) => {
 })
 
 
-service.get('/service/:coords', (req, res, next) => {
+service.get('/service/time/:coords', (req, res, next) => {
 	
-	console.log("RUNNING COORDS API")
+	console.log("RUNNING COORDS Time API")
 	
 	// lat, lon
 	const coords = req.params.coords.split(",")

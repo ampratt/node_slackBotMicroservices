@@ -7,6 +7,7 @@ const locationKey = require('../../../docs/geoLocationKey.js')
 // let location = null
 
 module.exports.process = function process(intentData, registry, cb) {
+	console.log(`intent: ${intentData.intent[0].value}`)
 
 	if(intentData.intent[0].value !== 'time')
 		return cb(new Error(`Expected time intent, but got ${intentData.intent[0].value}`))
@@ -26,7 +27,7 @@ module.exports.process = function process(intentData, registry, cb) {
 		    const service = registry.get('time')
 		    if(!service) return cb(false, 'No service available');
 
-			request.get(`http://${service.ip}:${service.port}/service/${coords}`, (err, res) => {
+			request.get(`http://${service.ip}:${service.port}/service/time/${coords}`, (err, res) => {
 				if(err || res.statusCode != 200 || !res.body.result){
 					console.log(err)
 
